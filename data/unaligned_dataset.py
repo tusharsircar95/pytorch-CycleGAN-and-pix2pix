@@ -3,7 +3,7 @@ from data.base_dataset import BaseDataset, get_transform
 from data.image_folder import make_dataset
 from PIL import Image
 import random
-
+import torch
 
 class UnalignedDataset(BaseDataset):
     """
@@ -60,7 +60,10 @@ class UnalignedDataset(BaseDataset):
         A = self.transform_A(A_img)
         B = self.transform_B(B_img)
 
-        return {'A': A, 'B': B, 'A_paths': A_path, 'B_paths': B_path}
+        A_ = torch.stack([A,A,A,A,A],1)
+        B_ = torch.stack([B,B,B,B,B],1)
+        
+        return {'A': A_, 'B': B_, 'A_paths': A_path, 'B_paths': B_path}
 
     def __len__(self):
         """Return the total number of images in the dataset.
