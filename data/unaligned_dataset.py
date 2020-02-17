@@ -53,7 +53,7 @@ class UnalignedDataset(BaseDataset):
             index_B = index % self.B_size
         else:   # randomize the index for domain B to avoid fixed pairs.
             index_B = random.randint(0, self.B_size - 1)
-        index_A = index_A % (A.size-3)
+        index_A = index % (A.size-3)
         index_B = index_B % (B.size-3)
         
         B_path = self.B_paths[index_B]
