@@ -25,9 +25,9 @@ def get_norm_layer(norm_type='instance'):
     For InstanceNorm, we do not use learnable affine parameters. We do not track running statistics.
     """
     if norm_type == 'batch':
-        norm_layer = functools.partial(nn.BatchNorm2d, affine=True, track_running_stats=True)
+        norm_layer = functools.partial(nn.BatchNorm3d, affine=True, track_running_stats=True)
     elif norm_type == 'instance':
-        norm_layer = functools.partial(nn.InstanceNorm2d, affine=False, track_running_stats=False)
+        norm_layer = functools.partial(nn.InstanceNorm3d, affine=False, track_running_stats=False)
     elif norm_type == 'none':
         def norm_layer(x): return Identity()
     else:
@@ -566,6 +566,8 @@ class NLayerDiscriminator(nn.Module):
                 norm_layer(ndf * nf_mult),
                 nn.LeakyReLU(0.2, True)
             ]
+
+
 
         nf_mult_prev = nf_mult
         nf_mult = min(2 ** n_layers, 8)

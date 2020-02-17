@@ -60,8 +60,8 @@ class UnalignedDataset(BaseDataset):
         A = self.transform_A(A_img)
         B = self.transform_B(B_img)
 
-        A_ = torch.stack([A,A,A,A,A],1)
-        B_ = torch.stack([B,B,B,B,B],1)
+        A_ = torch.stack([A for i in range(4)],1)
+        B_ = torch.stack([B for i in range(4)],1)
         
         return {'A': A_, 'B': B_, 'A_paths': A_path, 'B_paths': B_path}
 
