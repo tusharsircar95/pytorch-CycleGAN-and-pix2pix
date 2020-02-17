@@ -53,6 +53,9 @@ class UnalignedDataset(BaseDataset):
             index_B = index % self.B_size
         else:   # randomize the index for domain B to avoid fixed pairs.
             index_B = random.randint(0, self.B_size - 1)
+        index_A = index_A % (A.size-3)
+        index_B = index_B % (B.size-3)
+        
         B_path = self.B_paths[index_B]
         A_img = Image.open(A_path).convert('RGB')
         B_img = Image.open(B_path).convert('RGB')
@@ -60,8 +63,8 @@ class UnalignedDataset(BaseDataset):
         A = self.transform_A(A_img)
         B = self.transform_B(B_img)
 
-        A_ = torch.stack([A for i in range(4)],1)
-        B_ = torch.stack([B for i in range(4)],1)
+        A_ = torch.stack([Image.open(self.A_paths[index_A+i]).convert('RGB') for i in range(4)],1)
+        B_ = torch.stack([Image.open(self.B_paths[index_B+i]).convert('RGB')for i in range(4)],1)
         
         return {'A': A_, 'B': B_, 'A_paths': A_path, 'B_paths': B_path}
 
